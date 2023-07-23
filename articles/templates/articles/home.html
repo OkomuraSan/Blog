@@ -1,0 +1,193 @@
+{% extends 'articles/base.html' %}
+  {% block title %} {{ title }} {% endblock %}
+{% block baner_title %}
+            <h3>Tours & Travels</h3>
+            <h1>{{ title }}</h1>
+            <h4>{{ date}}</h4>
+{% endblock %}
+{% block content %}
+
+    <!--================Hero Banner end =================-->
+
+    <!--================ Blog slider start =================
+    <section>
+      <div class="container">
+        <div class="owl-carousel owl-theme blog-slider">
+          <div class="card blog__slide text-center">
+            <div class="blog__slide__img">
+              <img class="card-img rounded-0" src="/static/img/blog/blog-slider/blog-slide1.png" alt="">
+            </div>
+            <div class="blog__slide__content">
+              <a class="blog__slide__label" href="#">Fashion</a>
+              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
+              <p>2 days ago</p>
+            </div>
+          </div>
+          <div class="card blog__slide text-center">
+            <div class="blog__slide__img">
+              <img class="card-img rounded-0" src="/static/img/blog/blog-slider/blog-slide2.png" alt="">
+            </div>
+            <div class="blog__slide__content">
+              <a class="blog__slide__label" href="#">Fashion</a>
+              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
+              <p>2 days ago</p>
+            </div>
+          </div>
+          <div class="card blog__slide text-center">
+            <div class="blog__slide__img">
+              <img class="card-img rounded-0" src="/static/img/blog/blog-slider/blog-slide3.png" alt="">
+            </div>
+            <div class="blog__slide__content">
+              <a class="blog__slide__label" href="#">Fashion</a>
+              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
+              <p>2 days ago</p>
+            </div>
+          </div>
+          <div class="card blog__slide text-center">
+            <div class="blog__slide__img">
+              <img class="card-img rounded-0" src="/static/img/blog/blog-slider/blog-slide1.png" alt="">
+            </div>
+            <div class="blog__slide__content">
+              <a class="blog__slide__label" href="#">Fashion</a>
+              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
+              <p>2 days ago</p>
+            </div>
+          </div>
+          <div class="card blog__slide text-center">
+            <div class="blog__slide__img">
+              <img class="card-img rounded-0" src="/static/img/blog/blog-slider/blog-slide2.png" alt="">
+            </div>
+            <div class="blog__slide__content">
+              <a class="blog__slide__label" href="#">Fashion</a>
+              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
+              <p>2 days ago</p>
+            </div>
+          </div>
+          <div class="card blog__slide text-center">
+            <div class="blog__slide__img">
+              <img class="card-img rounded-0" src="/static/img/blog/blog-slider/blog-slide3.png" alt="">
+            </div>
+            <div class="blog__slide__content">
+              <a class="blog__slide__label" href="#">Fashion</a>
+              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
+              <p>2 days ago</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+    <!--================ Blog slider end =================-->
+
+    <!--================ Start Blog Post Area =================-->
+    <section class="blog-post-area section-margin mt-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+               {% for article in articles %}
+               <div class="single-recent-blog-post">
+              <div class="thumb">
+                <img class="img-fluid" src="{{ article.image.url }}" alt="">
+                <ul class="thumb-info">
+                  <li><i class="ti-user"></i> {{article.author}} </li>
+                  <li><i class="ti-notepad"></i>{{article.date}}</li>
+                  <li><i class="ti-themify-favicon"></i>{{article.views}} views</li>
+                </ul>
+              </div>
+              <div class="details mt-20">
+                <a href="blog-single.html">
+                  <h3>{{ article.name }}</h3>
+                </a>
+                <p class="tag-list-inline">
+                    Tag:
+
+                            {% for category in article.category.all %}
+                                <a  href="{% url 'articles:category' category.id%}">{{ category }} </a>
+                            {% endfor %}
+
+
+                </p>
+                <p> {{ article.descriptipn }}</p>
+                <a class="button" href="{% url 'posts:post' article.id %}">Read More <i class="ti-arrow-right"></i></a>
+              </div>
+            </div>
+              {% endfor %}
+
+            <div class="row">
+              <div class="col-lg-12">
+                  <nav class="blog-pagination justify-content-center d-flex">
+                      <ul class="pagination">
+                          <li class=" page-item {% if not articles.has_previous %} disabled {% endif %}">
+                              <a href="{% if  articles.has_previous %} {% url 'articles:paginator' articles.previous_page_number %} {% else %} # {% endif %}" class="page-link" aria-label="Previous">
+                                  <span aria-hidden="true">
+                                      <i class="ti-angle-left"></i>
+                                  </span>
+                              </a>
+                          </li>
+                          {% for page in articles.paginator.page_range %}
+                          <li class="page-item "><a href="{% url 'articles:paginator' page %}" class="page-link">{{ page}}</a></li>
+                          {% endfor %}
+                          <li class="page-item {% if not articles.has_next %} disabled {% endif %}">
+                              <a href="{% if  articles.has_next %} {% url 'articles:paginator' articles.next_page_number %} {% else %} # {% endif %}" class="page-link {% if not articles.has_next %} disabled {% endif %}" aria-label="Next">
+                                  <span aria-hidden="true">
+                                      <i class="ti-angle-right"></i>
+                                  </span>
+                              </a>
+                          </li>
+                      </ul>
+                  </nav>
+              </div>
+            </div>
+          </div>
+
+          <!-- Start Blog Post Siddebar -->
+
+          <div class="col-lg-4 sidebar-widgets">
+              <div class="widget-wrap">
+
+
+
+                <div class="single-sidebar-widget post-category-widget">
+                <h4 class="single-sidebar-widget__title">Catgory</h4>
+                <ul class="cat-list mt-20">
+                   {% for categor in category %}
+                      <li>
+                        <a href="{% url 'articles:category' categor.id%}" class="d-flex justify-content-center">
+                          <p>{{ categor}}</p>
+
+                        </a>
+                      </li>
+                    {% endfor %}
+                </ul>
+              </div>
+
+                <div class="single-sidebar-widget popular-post-widget">
+                  <h4 class="single-sidebar-widget__title">Popular Post</h4>
+                  <div class="popular-post-list">
+                      {% for top in top_3%}
+                    <div class="single-post-list">
+                      <div class="thumb">
+                        <img class="card-img rounded-0" src="{{ top.image.url }}" alt="">
+                        <ul class="thumb-info">
+                          <li>{{ top.author }}</li>
+                          <li>{{ top.date|date:"M Y"}}</li>
+                        </ul>
+                      </div>
+                      <div class="details mt-20">
+                        <a href="{% url 'posts:post' top.id %}">
+                          <h6>{{ top.name}}</h6>
+                        </a>
+                      </div>
+                    </div>
+                      {% endfor %}
+                  </div>
+                </div>
+
+                </div>
+              </div>
+            </div>
+          <!-- End Blog Post Siddebar -->
+        </div>
+    </section>
+    <!--================ End Blog Post Area =================-->
+  </main>
+{% endblock %}
